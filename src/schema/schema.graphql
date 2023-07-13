@@ -4,6 +4,10 @@ type Query {
     users: [User!]!
 }
 
+type Mutation {
+    register(user: UserInput!): Boolean
+}
+
 type User {
     id: ID!
     name: String!
@@ -12,4 +16,19 @@ type User {
     password: String!
     registerDate: String!
     birthday: String!
+    role: Role! 
+}
+input UserInput {
+    id: ID
+    name: String!
+    lastname: String!
+    email: String!
+    password: String!
+    birthday: String!
+    role: Role=CLIENT
+}
+
+enum Role {
+    CLIENT
+    ADMIN
 }

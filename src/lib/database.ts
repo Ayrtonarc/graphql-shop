@@ -1,6 +1,5 @@
-import chalk from 'chalk';
 import  MongoClient  from 'mongodb';
-
+import chalk from 'chalk';
 class Database {
     async init (){
         const MONGO_DB = process.env.DATABASE || 'mongodb://localhost:27017/meang-online-shop';
@@ -16,8 +15,8 @@ class Database {
 
         if(client.isConnected()){
             console.log('===DB===');
-            console.log(`STATUS ${chalk.greenBright('ONLINE')}`);
-            console.log(`STATUS ${chalk.greenBright(db.databaseName)}`);
+            console.log(`STATUS ('ONLINE')}`);
+            console.log(`STATUS ${(db.databaseName)}`);
         }
     }
 }
