@@ -5,7 +5,7 @@ type Query {
 }
 
 type Mutation {
-    register(user: UserInput!): Boolean
+    register(user: UserInput!): User
 }
 
 type User {

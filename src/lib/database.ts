@@ -16,7 +16,7 @@ class Database {
         if(client.isConnected()){
             console.log('===DB===');
             console.log(`STATUS ('ONLINE')}`);
-            console.log(`STATUS ${(db.databaseName)}`);
+            console.log(`DATABASE ${(db.databaseName)}`);
         }
     }
 }

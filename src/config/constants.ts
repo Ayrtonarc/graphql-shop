@@ -5,3 +5,7 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 export const SECRET_KEY = process.env.SECRET || 'Militarencrypted'
+
+export enum COLLECTIONS {
+    USERS='users'
+}
