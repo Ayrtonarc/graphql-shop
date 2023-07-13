@@ -6,6 +6,7 @@ import enviroments from './config/enviroments';
 import { ApolloServer } from 'apollo-server-express';
 import schema from './schema';
 import expressPlayground from 'graphql-playground-middleware-express';
+import Database from './lib/database';
 //configuracion de las variables de entorno (lectura)
 if(process.env.NODE_ENV !== 'production'){
   const env = enviroments;
@@ -20,10 +21,15 @@ async function init() {
   app.use(cors());
 
   app.use(compression())
+
+  const database = new Database();
+  const db = await database.init();
+  const context = { db };
   
   const server = new ApolloServer({
       schema,
-      introspection: true
+      introspection: true,
+      context
   });
 server.applyMiddleware({app});
 
