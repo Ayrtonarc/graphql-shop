@@ -18,6 +18,7 @@ class Database {
             console.log(`STATUS ('ONLINE')}`);
             console.log(`DATABASE ${(db.databaseName)}`);
         }
+        return db;
     }
 }
 

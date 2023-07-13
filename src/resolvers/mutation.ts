@@ -6,10 +6,10 @@ const resolversMutation: IResolvers = {
        async register (_, { user }, { db })  {
           const lastUser = await db.collection(COLLECTIONS.USERS).
             find().
-            limit().
+            limit(1).
             sort({ registerDate: -1}).toArray();
 
-        if(lastUser.lenght === 0){
+        if(Object.keys(lastUser).length === 0){
             user.id = 1;
         }else{
             user.id = lastUser[0].id +1;
