@@ -20,6 +20,27 @@ const resolversQuery: IResolvers = {
                 };
             }
 
+        },
+        async login(_, { email, password}, { db } ){
+            try {
+                
+               const user = await db
+                    .collection(COLLECTIONS.USERS).
+                    findOne({email, password})
+                return {
+                    status: true,
+                    message: (user == null) ? 'password o correo no correctos' : 'lista de usuarios cargada correctamente',
+                    user
+                };
+
+            } catch (error) {
+                console.log(error);
+                return {
+                    status: false,
+                    message: 'Error al cargar el usuario',
+                    user: null,
+                };
+            }
         }
     }
 };

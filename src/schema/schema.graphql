@@ -2,10 +2,12 @@
 
 type Query {
     users: ResultUsers
+    login(email: String!, password: String!): ResultLogin
 }
 
 type Mutation {
     register(user: UserInput!): User
+
 }
 
 interface Result {
@@ -17,6 +19,12 @@ type ResultUsers implements Result{
     status: Boolean!
     message: String!
     users: [User!]!
+}
+
+type ResultLogin implements Result{
+    status: Boolean!
+    message: String!
+    user: User
 }
 
 type User {
