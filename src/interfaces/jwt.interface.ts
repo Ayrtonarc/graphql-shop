@@ -1,5 +1,5 @@
 import { IUser } from "./user.interface";
 
-export interface Ijwt{
+export interface IJwt{
     user: IUser
 }
