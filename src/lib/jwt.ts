@@ -1,5 +1,5 @@
 import { Ijwt } from "../interfaces/jwt.interface";
-import { SECRET_KEY  } from "./../config/constants";
+import { MESSAGES, SECRET_KEY  } from "./../config/constants";
 import jwt from 'jsonwebtoken';
 
 class JWT {
@@ -12,7 +12,13 @@ class JWT {
             { expiresIn: 24 * 50 * 60 } // 24 hrs 
         );
     }
-
+    verify(token: string){
+        try{
+            return jwt.verify(token, this.secretkey) as string;
+        }catch(e){
+            return MESSAGES.TOKEN_VERIFICATION_FAILED;
+        }
+    }
 }
 
 export default JWT;
