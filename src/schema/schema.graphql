@@ -6,7 +6,7 @@ type Query {
 }
 
 type Mutation {
-    register(user: UserInput!): User
+    register(user: UserInput!): ResultUser
 
 }
 
@@ -19,6 +19,12 @@ type ResultUsers implements Result{
     status: Boolean!
     message: String!
     users: [User!]!
+}
+
+type ResultUser implements Result{
+    status: Boolean!
+    message: String!
+    user: User
 }
 
 type ResultLogin implements Result{

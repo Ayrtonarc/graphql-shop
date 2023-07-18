@@ -53,7 +53,7 @@ const resolversQuery: IResolvers = {
                     token:
                         user == null
                             ? null
-                            : new JWT().sign({ user }, EXPIRETIME.M15),
+                            : new JWT().sign({ user }, EXPIRETIME.H24),
                 };
 
             } catch (error) {

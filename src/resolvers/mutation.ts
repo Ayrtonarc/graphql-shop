@@ -4,6 +4,17 @@ import { COLLECTIONS } from '../config/constants';
 const resolversMutation: IResolvers = {
     Mutation: {
        async register (_, { user }, { db })  {
+        //comprobar que el usuario no existe
+        const userCheck = await db.collection(COLLECTIONS.USERS).
+            findOne({email: user.email});
+
+            if(userCheck !== null){
+                return {
+                    status: false,
+                    message: `El email ${user.email} ya esta registrado`,
+                    user: null
+                };
+            }
           const lastUser = await db.collection(COLLECTIONS.USERS).
             find().
             limit(1).
@@ -21,11 +32,19 @@ const resolversMutation: IResolvers = {
         collection(COLLECTIONS.USERS).
         insertOne(user).then(
             async () => {
-            return user;
+                return {
+                    status: true,
+                    message: `El email ${user.email} esta registrado correctamente`,
+                    user
+                };
             }
         ).catch((err: Error) => {
             console.log(err.message);
-            return null;
+            return {
+                status: false,
+                message: `Error inesperado`,
+                user: null
+            };
         });
             
         }
