@@ -1,5 +1,6 @@
 import { IResolvers } from 'graphql-tools';
 import { COLLECTIONS } from '../config/constants';
+import bcrypt from 'bcrypt';
 
 const resolversMutation: IResolvers = {
     Mutation: {
@@ -25,8 +26,11 @@ const resolversMutation: IResolvers = {
         }else{
             user.id = lastUser[0].id +1;
         }
-        
+        //asignar fecha en formati ISO
         user.registerDate = new Date().toISOString();
+        //encriptar password
+        user.password = bcrypt.hashSync(user.password,10);
+
 
         return await db.
         collection(COLLECTIONS.USERS).
