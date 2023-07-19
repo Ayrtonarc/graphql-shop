@@ -63,6 +63,9 @@ const resolversQuery: IResolvers = {
                     token: null,
                 };
             }
+        },
+        me(_,__,{token}){
+            return; 
         }
     }
 };
