@@ -1,6 +1,7 @@
 import { IResolvers } from 'graphql-tools';
 import { COLLECTIONS, EXPIRETIME } from '../config/constants';
 import JWT from '../lib/jwt';
+import bcrypt, { hash } from 'bcrypt';
 
 const resolversQuery: IResolvers = {
     Query: {
@@ -24,22 +25,20 @@ const resolversQuery: IResolvers = {
         },
         async login(_, { email, password}, { db } ){
             try {
-                const emailVerification = await db
+                const user = await db
                 .collection(COLLECTIONS.USERS).
                 findOne({email});
 
-                if(emailVerification === null) {
+                if(user === null) {
                     return {
                         status: false,
                         message: 'Usuario no existe',
                         token: null,
                     };
                 }
-               const user = await db
-                    .collection(COLLECTIONS.USERS).
-                    findOne({email, password});
+                const passwordCheck = bcrypt.compareSync(password, user.password);
 
-                    if(user !== null){
+                    if(passwordCheck !== null){
                         delete user.password;
                         delete user.birthday;
                         delete user.registerDate;
@@ -47,11 +46,11 @@ const resolversQuery: IResolvers = {
                 return {
                     status: true,
                     message:
-                        user == null
+                        !passwordCheck
                             ? 'password o correo no correctos'
                             : 'Usuario cargado correctamente',
                     token:
-                        user == null
+                        !passwordCheck
                             ? null
                             : new JWT().sign({ user }, EXPIRETIME.H24),
                 };

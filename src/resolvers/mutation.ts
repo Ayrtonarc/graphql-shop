@@ -38,7 +38,7 @@ const resolversMutation: IResolvers = {
             async () => {
                 return {
                     status: true,
-                    message: `El email ${user.email} esta registrado correctamente`,
+                    message: `El email ${user.email} ha sido registrado correctamente`,
                     user
                 };
             }
