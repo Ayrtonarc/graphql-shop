@@ -65,6 +65,7 @@ const resolversQuery: IResolvers = {
             }
         },
         me(_,__,{token}){
+            console.log(token);
             return; 
         }
     }
