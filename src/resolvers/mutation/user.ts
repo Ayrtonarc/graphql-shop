@@ -1,6 +1,7 @@
 import { IResolvers } from 'graphql-tools';
 import { COLLECTIONS } from '../../config/constants';
 import bcrypt from 'bcrypt';
+import { asigDocumentId } from '../../lib/db-operations';
 
 const resolversUserMutation: IResolvers = {
     Mutation: {
@@ -16,16 +17,9 @@ const resolversUserMutation: IResolvers = {
                     user: null
                 };
             }
-          const lastUser = await db.collection(COLLECTIONS.USERS).
-            find().
-            limit(1).
-            sort({ registerDate: -1}).toArray();
+        //comprobar el ultimo usuario para asignar su ID 
+        user.id = await asigDocumentId(db, COLLECTIONS.USERS, { registerDate: -1});  
 
-        if(Object.keys(lastUser).length === 0){
-            user.id = 1;
-        }else{
-            user.id = lastUser[0].id +1;
-        }
         //asignar fecha en formati ISO
         user.registerDate = new Date().toISOString();
         //encriptar password
