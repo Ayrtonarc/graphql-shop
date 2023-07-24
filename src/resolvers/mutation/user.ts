@@ -1,8 +1,8 @@
 import { IResolvers } from 'graphql-tools';
-import { COLLECTIONS } from '../config/constants';
+import { COLLECTIONS } from '../../config/constants';
 import bcrypt from 'bcrypt';
 
-const resolversMutation: IResolvers = {
+const resolversUserMutation: IResolvers = {
     Mutation: {
        async register (_, { user }, { db })  {
         //comprobar que el usuario no existe
@@ -55,4 +55,4 @@ const resolversMutation: IResolvers = {
     }
 };
 
-export default resolversMutation;
+export default resolversUserMutation;
