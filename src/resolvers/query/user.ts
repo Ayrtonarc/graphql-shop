@@ -2,6 +2,7 @@ import { IResolvers } from 'graphql-tools';
 import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../../config/constants';
 import JWT from '../../lib/jwt';
 import bcrypt, { hash } from 'bcrypt';
+import { findOneElement } from '../../lib/db-operations';
 
 const resolversUserQuery: IResolvers = {
     Query: {
@@ -25,9 +26,8 @@ const resolversUserQuery: IResolvers = {
         },
         async login(_, { email, password}, { db } ){
             try {
-                const user = await db
-                .collection(COLLECTIONS.USERS).
-                findOne({email});
+                
+                const user = await findOneElement(db, COLLECTIONS.USERS, { email });
 
                 if(user === null) {
                     return {

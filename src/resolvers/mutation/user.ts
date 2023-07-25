@@ -1,14 +1,13 @@
 import { IResolvers } from 'graphql-tools';
 import { COLLECTIONS } from '../../config/constants';
 import bcrypt from 'bcrypt';
-import { asigDocumentId } from '../../lib/db-operations';
+import { asigDocumentId, findOneElement } from '../../lib/db-operations';
 
 const resolversUserMutation: IResolvers = {
     Mutation: {
        async register (_, { user }, { db })  {
         //comprobar que el usuario no existe
-        const userCheck = await db.collection(COLLECTIONS.USERS).
-            findOne({email: user.email});
+        const userCheck = await findOneElement(db, COLLECTIONS.USERS, {email: user.email});
 
             if(userCheck !== null){
                 return {

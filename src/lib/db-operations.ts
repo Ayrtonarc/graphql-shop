@@ -25,3 +25,13 @@ export const asigDocumentId = async (
     }
     return lastElement[0].id + 1;
 };
+
+export const findOneElement = async (
+    database: Db,
+    collection: string,
+    filter: object
+) => {
+    return database
+            .collection(collection)
+            .findOne(filter);
+};
