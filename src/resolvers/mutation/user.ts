@@ -1,7 +1,7 @@
 import { IResolvers } from 'graphql-tools';
 import { COLLECTIONS } from '../../config/constants';
 import bcrypt from 'bcrypt';
-import { asigDocumentId, findOneElement } from '../../lib/db-operations';
+import { asigDocumentId, findOneElement, insertOneElement } from '../../lib/db-operations';
 
 const resolversUserMutation: IResolvers = {
     Mutation: {
@@ -25,9 +25,8 @@ const resolversUserMutation: IResolvers = {
         user.password = bcrypt.hashSync(user.password,10);
 
 
-        return await db.
-        collection(COLLECTIONS.USERS).
-        insertOne(user).then(
+        return await insertOneElement (db, COLLECTIONS.USERS, user)
+        .then(
             async () => {
                 return {
                     status: true,

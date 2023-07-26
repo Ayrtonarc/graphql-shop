@@ -1,3 +1,4 @@
+import exp from 'constants';
 import { Db } from 'mongodb';
 
 /**
@@ -34,4 +35,20 @@ export const findOneElement = async (
     return database
             .collection(collection)
             .findOne(filter);
+};
+
+export const insertOneElement =async (
+    database: Db,
+    collection: string,
+    document: object
+) => {
+    return await database.collection(collection).insertOne(document);
+};
+
+export const insertManyElements =async (
+    database: Db,
+    collection: string,
+    documents: Array<object>
+) => {
+    return await database.collection(collection).insertMany(documents);
 };
