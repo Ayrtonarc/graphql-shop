@@ -2,7 +2,7 @@ import { IResolvers } from 'graphql-tools';
 import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../../config/constants';
 import JWT from '../../lib/jwt';
 import bcrypt, { hash } from 'bcrypt';
-import { findOneElement } from '../../lib/db-operations';
+import { findElements, findOneElement } from '../../lib/db-operations';
 
 const resolversUserQuery: IResolvers = {
     Query: {
@@ -11,8 +11,7 @@ const resolversUserQuery: IResolvers = {
                 return {
                     status: true,
                     message: 'lista de usuarios cargada correctamente',
-                    users: await db.collection(COLLECTIONS.USERS).
-                    find().toArray()
+                    users: await findElements(db, COLLECTIONS.USERS), 
                 };
             } catch (error) {
                 console.log(error);
