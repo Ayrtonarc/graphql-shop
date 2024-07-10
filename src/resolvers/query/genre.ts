@@ -1,22 +1,9 @@
 import { IResolvers } from "graphql-tools";
-import { findElements } from "../../lib/db-operations";
-import { COLLECTIONS } from "../../config/constants";
+import GenreService from "../../services/genre.service";
 const resolversGenreQuery: IResolvers = {
     Query: {
        async genres(_, __, { db }) {
-            try {
-                return{
-                    status: true,
-                    message: "Lista de generos correctamente cargada",
-                    genres: await findElements(db, COLLECTIONS.GENRES)
-                };
-            } catch (error){
-                return{
-                    status: false,
-                    message: `Lista de generos no cargada: ${error} `,
-                    genres: null
-                };
-            }
+            return new GenreService(_, __, { db }).items();
         }
     }
 };

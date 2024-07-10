@@ -17,13 +17,13 @@ class ResolversOperationsService {
             return{
                 status: true,
                 message: `Lista ${ listElement } correctamente cargada`,
-                genres: await findElements(this.context.db, collection)
+                items: await findElements(this.context.db, collection)
             };
         } catch (error){
             return{
                 status: false,
                 message: `Lista de ${ listElement } no cargada: ${error} `,
-                genres: null
+                items: null
             };
         }
     }
