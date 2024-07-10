@@ -4,4 +4,5 @@ type Query {
     login(email: String!, password: String!): ResultLogin
     me: ResultUser
     genres: ResultGenre
+    genre(id: ID!): ResultGenre
 }
