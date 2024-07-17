@@ -1,6 +1,6 @@
 import { IContextData } from "../interfaces/context-data.interface";
 import { IVariables } from "../interfaces/variable.interface";
-import { findElements, findOneElement } from "../lib/db-operations";
+import { findElements, findOneElement, insertOneElement } from "../lib/db-operations";
 
 class ResolversOperationsService {
     private root: object;
@@ -58,7 +58,32 @@ class ResolversOperationsService {
             }
     }
     //Anadir Item
-
+    protected async add(collection: string, document: object, item: string){
+        try {
+            return await insertOneElement(this.context.db, collection, document).then(
+                res => {
+                    if (res.result.ok === 1){
+                        return{
+                            status: true,
+                            message: `Anadido correctamente el  ${item}.`,
+                            item: document
+                        }
+                    }
+                    return{
+                        status: false,
+                        message: `No se ha insertado el  ${item}. Intentalo de nuevo por favor`,
+                        item: null
+                    }
+                }
+            );
+        }catch{
+            return {
+                status: false,
+                message: `Error inesperado al insertar el ${item}. Intentalo de nuevo por favor`,
+                item: null
+            };
+        }
+    }
     // Modificar el item 
 
     //Eliminar item
