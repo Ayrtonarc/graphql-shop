@@ -1,3 +1,4 @@
+import { Db } from "mongodb";
 import { IContextData } from "../interfaces/context-data.interface";
 import { IVariables } from "../interfaces/variable.interface";
 import { findElements, findOneElement, insertOneElement } from "../lib/db-operations";
@@ -12,6 +13,7 @@ class ResolversOperationsService {
        this.context = context;
     }
 
+    protected getDb(): Db { return this.context.db; }
     protected getVariables(): IVariables{ return this.variables;    }
     //Listar informacion
     protected async list(collection: string, listElement: string) {
