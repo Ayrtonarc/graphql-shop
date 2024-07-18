@@ -17,13 +17,33 @@ class GenreService extends ResolversOperationsService {
         return { status: result.status, message: result.message, genre: result.item };
     }
 
-    async insert(){
+    async insert() {
+        const genre = this.getVariables().genre;
+        //
+        if (!this.checkData(genre || ''))  {
+            return {
+                status: false,
+                message: 'El genero no se ha especificado correctamente',
+                genre: null
+            };
+        }
+        //
+        //
+        const genreObject = {
+            id: '',
+            name: '',
+            slug: ''
+        };
         const result = await this.add(COLLECTIONS.GENRES, {
             id: '85',
             name: 'Realidad Virtual',
             slug: 'realidad-virtual'
         }, 'genero');
         return { status: result.status, message: result.message, genre: result.item };
+    }
+
+    private checkData(value: string){
+        return (value === '' || value === undefined) ? false: true;
     }
 
 }
