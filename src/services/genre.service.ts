@@ -47,6 +47,9 @@ class GenreService extends ResolversOperationsService {
         const result = await this.add(this.collection, genreObject, 'genero');
         return { status: result.status, message: result.message, genre: result.item };
     }
+    async modify(){
+        
+    }
 
     private checkData(value: string){
         return (value === '' || value === undefined) ? false: true;

@@ -88,7 +88,9 @@ class ResolversOperationsService {
         }
     }
     // Modificar el item 
-
+    protected async update(collection: string, filter: object, objectUpdate: object, item: string) {
+        
+    }
     //Eliminar item
 }
 
