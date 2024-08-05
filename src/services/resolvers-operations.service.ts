@@ -89,7 +89,33 @@ class ResolversOperationsService {
     }
     // Modificar el item 
     protected async update(collection: string, filter: object, objectUpdate: object, item: string) {
-        
+        try{
+            return await this.getDb().collection(collection).updateOne(
+                filter,
+                { $set: objectUpdate }
+            ).then(
+                res => {
+                    if(res.result.nModified === 1 && res.result.ok ){
+                        return {
+                            status: true,
+                            message: `Elemento del ${item} actualizado correctamente.`,
+                            item: Object.assign({}, filter, objectUpdate)
+                        };
+                    }
+                    return {
+                        status: false,
+                        message: `Elemento del ${item} no se ha actualizado comprueba que estas filtrando correctamente`,
+                        item: null
+                    };
+                }
+            );
+        } catch(error){
+          return{
+            status: false,
+            message: `Error inesperado al actualizar el ${item}. Intentalo de nuevo por favor`,
+            item: null
+          } 
+        }
     }
     //Eliminar item
 }

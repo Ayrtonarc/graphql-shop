@@ -1,3 +1,4 @@
+import { filter } from "compression";
 import { COLLECTIONS } from "../config/constants";
 import { IContextData } from "../interfaces/context-data.interface";
 import { asigDocumentId, findOneElement } from "../lib/db-operations";
@@ -48,7 +49,10 @@ class GenreService extends ResolversOperationsService {
         return { status: result.status, message: result.message, genre: result.item };
     }
     async modify(){
-        
+        const id = { id: '85'};
+        const objectUpdate = { name: 'Shooter plataforma', slug: 'shooter-platform' };
+        const result = await this.update(this.collection, id, objectUpdate, 'genero');
+        return { status: result.status, message: result.message, genre: result.item };
     }
 
     private checkData(value: string){
