@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 import { IContextData } from "../interfaces/context-data.interface";
 import { IVariables } from "../interfaces/variable.interface";
-import { findElements, findOneElement, insertOneElement } from "../lib/db-operations";
+import { findElements, findOneElement, insertOneElement, updateOneElement } from "../lib/db-operations";
 
 class ResolversOperationsService {
     private root: object;
@@ -90,9 +90,11 @@ class ResolversOperationsService {
     // Modificar el item 
     protected async update(collection: string, filter: object, objectUpdate: object, item: string) {
         try{
-            return await this.getDb().collection(collection).updateOne(
+            return await updateOneElement(
+                this.getDb(),
+                collection,
                 filter,
-                { $set: objectUpdate }
+                objectUpdate
             ).then(
                 res => {
                     if(res.result.nModified === 1 && res.result.ok ){

@@ -53,6 +53,18 @@ export const insertManyElements =async (
     return await database.collection(collection).insertMany(documents);
 };
 
+export const updateOneElement = async (
+    database: Db,
+    collection: string,
+    filter: object,
+    updateObject: object
+) => {
+    return await database.collection(collection).updateOne(
+        filter,
+        { $set: updateObject }
+    );
+};
+
 export const findElements = async (
     database: Db,
     collection: string,
