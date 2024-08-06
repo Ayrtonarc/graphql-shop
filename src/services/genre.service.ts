@@ -49,9 +49,29 @@ class GenreService extends ResolversOperationsService {
         return { status: result.status, message: result.message, genre: result.item };
     }
     async modify(){
-        const id = { id: '85'};
-        const objectUpdate = { name: 'Shooter plataforma', slug: 'shooter-platform' };
-        const result = await this.update(this.collection, id, objectUpdate, 'genero');
+        const id = this.getVariables().id;
+        const genre = this.getVariables().genre;
+        //comprobar que el id es correcto
+        if(!this.checkData(String(id) || '')){
+            return {
+                status: false,
+                message: 'El ID del genero no se ha especificado correctamente',
+                genre: null
+            };
+        }
+        if(!this.checkData(genre || '')){
+            return {
+                status: false,
+                message: 'El genero existe en la base de datos, intenta con otro genero',
+                genre: null
+            };
+        }
+        const objectUpdate = {
+            name: genre,
+            slug: slugify(genre || '', {lower: true})
+         };
+        
+        const result = await this.update(this.collection, { id }, objectUpdate, 'genero');
         return { status: result.status, message: result.message, genre: result.item };
     }
 
