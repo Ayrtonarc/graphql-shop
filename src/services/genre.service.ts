@@ -75,6 +75,10 @@ class GenreService extends ResolversOperationsService {
         return { status: result.status, message: result.message, genre: result.item };
     }
 
+    async delete(){
+        
+    }
+
     private checkData(value: string){
         return (value === '' || value === undefined) ? false: true;
     }

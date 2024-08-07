@@ -10,7 +10,11 @@ const resolversGenreMutation: IResolvers = {
         updateGenre(_, variables, context) {
             //anadimos llamada al servicio
             return new GenreService(_, variables, context).modify();
-        }
+        },
+        deleteGenre(_, variables, context) {
+            //anadimos llamada al servicio
+            return new GenreService(_, variables, context).delete();
+        },
     }
 };
 
