@@ -76,7 +76,17 @@ class GenreService extends ResolversOperationsService {
     }
 
     async delete(){
-        
+        const id = this.getVariables().id;
+        if(!this.checkData(String(id) || '')){
+            return {
+                status: false,
+                message: 'El ID del genero no se ha especificado correctamente',
+                genre: null
+            };
+        }
+
+        const result = await this.del(this.collection, { id },  'genero');
+        return { status: result.status, message: result.message};
     }
 
     private checkData(value: string){

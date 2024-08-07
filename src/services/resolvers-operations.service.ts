@@ -120,8 +120,28 @@ class ResolversOperationsService {
         }
     }
     //Eliminar item
-    protected async del(coleccion: string, filter: object, item: string){
-        
+    protected async del(coleccion: string, filter: object, item: string) {
+        try {
+            return await this.getDb().collection(coleccion).deleteOne(filter).then(
+                res => {
+                    if(res.deletedCount === 1){
+                        return {
+                            status: true,
+                            message: `Elemento del ${item} borrado correctamente.`,
+                        };
+                    }
+                    return {
+                        status: true,
+                        message: `Elemento del ${item} No se ha borrado. comprueba el filtro`,
+                    };
+                }
+            )
+        } catch (error) {
+            return {
+                status: false,
+                message: `Error inesperado al eliminar el ${item}. Intentalo de nuevo por favor`,
+            };
+        }
     }
 }
 
