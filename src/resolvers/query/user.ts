@@ -3,25 +3,12 @@ import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../../config/constants';
 import JWT from '../../lib/jwt';
 import bcrypt, { hash } from 'bcrypt';
 import { findElements, findOneElement } from '../../lib/db-operations';
+import UsersService from '../../services/user.service';
 
 const resolversUserQuery: IResolvers = {
     Query: {
-        async users(_, __, { db },) {
-            try {
-                return {
-                    status: true,
-                    message: 'lista de usuarios cargada correctamente',
-                    users: await findElements(db, COLLECTIONS.USERS), 
-                };
-            } catch (error) {
-                console.log(error);
-                return {
-                    status: false,
-                    message: 'Error al cargar los usuarios',
-                    users: []
-                };
-            }
-
+        async users(_, __, context) {
+           return new UsersService(_, __, context).items();
         },
         async login(_, { email, password}, { db } ){
             try {
