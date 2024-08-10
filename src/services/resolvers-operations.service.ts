@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 import { IContextData } from "../interfaces/context-data.interface";
 import { IVariables } from "../interfaces/variable.interface";
-import { findElements, findOneElement, insertOneElement, updateOneElement } from "../lib/db-operations";
+import { deleteOneElement, findElements, findOneElement, insertOneElement, updateOneElement } from "../lib/db-operations";
 
 class ResolversOperationsService {
     private root: object;
@@ -120,9 +120,9 @@ class ResolversOperationsService {
         }
     }
     //Eliminar item
-    protected async del(coleccion: string, filter: object, item: string) {
+    protected async del(colleccion: string, filter: object, item: string) {
         try {
-            return await this.getDb().collection(coleccion).deleteOne(filter).then(
+            return await deleteOneElement(this.getDb(), colleccion, filter).then(
                 res => {
                     if(res.deletedCount === 1){
                         return {

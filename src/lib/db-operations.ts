@@ -65,6 +65,14 @@ export const updateOneElement = async (
     );
 };
 
+export const deleteOneElement = async (
+    database: Db,
+    collection: string,
+    filter: object = {}
+) => {
+    return await database.collection(collection).deleteOne(filter);
+};
+
 export const findElements = async (
     database: Db,
     collection: string,
