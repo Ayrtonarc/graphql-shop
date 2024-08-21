@@ -1,5 +1,8 @@
-import { COLLECTIONS } from '../config/constants';
+import { COLLECTIONS, EXPIRETIME } from '../config/constants';
 import { IContextData } from '../interfaces/context-data.interface';
+import { findOneElement } from '../lib/db-operations';
+import JWT from '../lib/jwt';
+import bcrypt, { hash } from 'bcrypt';
 import ResolversOperationsService from "./resolvers-operations.service";
 
 class UsersService extends ResolversOperationsService {
@@ -15,7 +18,50 @@ class UsersService extends ResolversOperationsService {
     //autenticarnos
 
     // Iniciar sesion
+    async login(){
+        try {
+            const variables = this.getVariables().user;
+            const user = await findOneElement(this.getDb(), this.collection, { email: variables?.email });
 
+            if(user === null) {
+                return {
+                    status: false,
+                    message: 'Usuario no existe',
+                    token: null,
+                };
+            }
+            const passwordCheck = bcrypt.compareSync(String(variables?.password || ''), user.password || '');
+
+                if(passwordCheck !== null){
+                    delete user.password;
+                    delete user.birthday;
+                    delete user.registerDate;
+                }
+            return {
+                status: passwordCheck,
+                message:
+                    !passwordCheck
+                        ? 'password o correo no correctos'
+                        : 'Usuario cargado correctamente',
+                token:
+                    !passwordCheck
+                        ? null
+                        : new JWT().sign({ user }, EXPIRETIME.H24),
+                    user:
+                    !passwordCheck
+                        ? null
+                        : user,
+            };
+
+        } catch (error) {
+            console.log(error);
+            return {
+                status: false,
+                message: 'Error al cargar el usuario',
+                token: null,
+            };
+        }
+    }
     //Registrar un usuario
 }
 
