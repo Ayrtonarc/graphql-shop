@@ -13,7 +13,8 @@ class ResolversOperationsService {
        this.context = context;
     }
 
-    protected getDb(): Db { return this.context.db; }
+    protected getContext(): IContextData { return this.context; }
+    protected getDb(): Db { return this.context.db!; }
     protected getVariables(): IVariables{ return this.variables;    }
     //Listar informacion
     protected async list(collection: string, listElement: string) {
@@ -21,7 +22,7 @@ class ResolversOperationsService {
             return{
                 status: true,
                 message: `Lista ${ listElement } correctamente cargada`,
-                items: await findElements(this.context.db, collection)
+                items: await findElements(this.getDb(), collection)
             };
         } catch (error){
             return{
@@ -36,7 +37,7 @@ class ResolversOperationsService {
         
             const collectionLabel = collection.toLowerCase();
             try {
-                return await findOneElement(this.context.db, collection, { id: this.variables.id}).then(
+                return await findOneElement(this.getDb(), collection, { id: this.variables.id}).then(
                 result =>{
                     if (result) {
                         return {
@@ -63,7 +64,7 @@ class ResolversOperationsService {
     //Anadir Item
     protected async add(collection: string, document: object, item: string){
         try {
-            return await insertOneElement(this.context.db, collection, document).then(
+            return await insertOneElement(this.getDb(), collection, document).then(
                 res => {
                     if (res.result.ok === 1){
                         return{
